@@ -1,0 +1,544 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Resume Studio – ATS aur CDS resume builder</title>
+<meta name="description" content="ATS aur CDS resume banao: 100 templates, photo upload, PDF download.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#14202b;--ink2:#22313f;--muted:#5d6b78;--line:#d9e0e6;--bg:#e9eef1;--panel:#fff;
+  --green:#1f5f4a;--green-d:#174b3a;--brass:#d6a03c;--brass-d:#bf8b2a;--ring:rgba(31,95,74,.28);
+  --r:12px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Manrope,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);font-size:14px;line-height:1.5}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--ring);outline-offset:1px}
+
+/* ---------- site header ---------- */
+.top{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px;padding:10px 20px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:9px;font-weight:800;font-size:17px;letter-spacing:-.2px;margin-right:6px}
+.brand svg{display:block}
+.seg{display:inline-flex;background:#eef2f4;border-radius:10px;padding:3px}
+.seg button{border:0;background:transparent;padding:6px 16px;border-radius:8px;font-weight:700;color:var(--muted)}
+.seg button.on{background:#fff;color:var(--green);box-shadow:0 1px 3px rgba(20,32,43,.15)}
+.tplbtn{display:inline-flex;align-items:center;gap:9px;border:1px solid var(--line);background:#fff;border-radius:10px;padding:7px 12px;font-weight:600}
+.tplbtn:hover{border-color:var(--green)}
+.tplbtn .sw{width:14px;height:14px;border-radius:50%;display:inline-block}
+.tplbtn small{color:var(--muted);font-weight:600}
+.sp{flex:1}
+.ghost{border:1px solid var(--line);background:#fff;border-radius:10px;padding:7px 12px;font-weight:600}
+.ghost:hover{border-color:var(--green);color:var(--green)}
+.primary{border:0;background:var(--brass);color:var(--ink);border-radius:10px;padding:9px 18px;font-weight:800}
+.primary:hover{background:var(--brass-d)}
+.dmenu{position:relative}
+.dmenu summary{list-style:none;border:1px solid var(--line);background:#fff;border-radius:10px;padding:7px 12px;font-weight:600;cursor:pointer}
+.dmenu summary::-webkit-details-marker{display:none}
+.dpop{position:absolute;right:0;top:calc(100% + 6px);background:#fff;border:1px solid var(--line);border-radius:12px;padding:6px;min-width:190px;box-shadow:0 12px 30px rgba(20,32,43,.16);display:flex;flex-direction:column;z-index:30}
+.dpop button,.dpop label{border:0;background:transparent;text-align:left;padding:9px 10px;border-radius:8px;font-weight:600;cursor:pointer}
+.dpop button:hover,.dpop label:hover{background:#eef2f4}
+
+/* ---------- hero ---------- */
+.hero{background:var(--ink);color:#fff;padding:34px 20px 62px}
+.hero>div{max-width:1400px;margin:0 auto}
+.hero h1{margin:0 0 8px;font-size:clamp(26px,4vw,38px);line-height:1.15;font-weight:800;letter-spacing:-.8px;max-width:20em}
+.hero p{margin:0;color:#b9c6d1;max-width:46em;font-size:15px}
+
+/* ---------- workspace ---------- */
+.app{max-width:1400px;margin:-40px auto 0;display:grid;grid-template-columns:minmax(340px,440px) 1fr;gap:20px;padding:0 20px 30px;align-items:start}
+.form{position:sticky;top:70px;max-height:calc(100vh - 86px);overflow:auto;padding-right:2px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);margin-bottom:10px;box-shadow:0 1px 2px rgba(20,32,43,.04)}
+.card>summary{list-style:none;cursor:pointer;padding:13px 16px;font-weight:700;display:flex;align-items:center;justify-content:space-between}
+.card>summary::-webkit-details-marker{display:none}
+.card>summary::after{content:"+";font-size:20px;font-weight:500;color:var(--muted);line-height:1}
+.card[open]>summary::after{content:"−"}
+.card[open]>summary{border-bottom:1px solid var(--line)}
+.cb{padding:12px 16px 16px}
+.f{margin-top:10px}
+.f:first-child{margin-top:0}
+.f label,.lab{display:block;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:4px}
+.f input:not([type=range]):not([type=checkbox]),.f textarea,.f select{width:100%;padding:9px 11px;border:1px solid #c6cfd7;border-radius:9px;background:#fff}
+.f textarea{min-height:68px;resize:vertical}
+.f input:focus,.f textarea:focus,.f select:focus{border-color:var(--green);outline:3px solid var(--ring)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.g2 .f{margin-top:10px}
+.entry{border:1px solid var(--line);border-radius:10px;padding:12px;margin-top:10px;background:#f8fafb}
+.entry .rm{float:right;border:0;background:transparent;color:#b3372f;font-weight:700;font-size:12px;padding:0}
+.entry .rm:hover{text-decoration:underline}
+.add{margin-top:10px;width:100%;border:1px dashed #9db3a9;background:#f2f7f5;color:var(--green);border-radius:10px;padding:9px;font-weight:700}
+.add:hover{background:#e6f0ec}
+.hint{font-size:12px;color:var(--muted);margin:0 0 4px}
+.cdsonly{display:none}
+body.cds .cdsonly{display:block}
+/* photo */
+.phrow{display:flex;gap:14px;align-items:center}
+.phprev{width:84px;height:100px;border-radius:10px;border:1px dashed #9aa8b4;background:#f2f5f7;display:grid;place-items:center;overflow:hidden;color:#8b99a6;font-size:11px;text-align:center;flex:none}
+.phprev img{width:100%;height:100%;object-fit:cover}
+.phbtns{display:flex;flex-direction:column;gap:8px}
+.btn2{display:inline-block;background:var(--green);color:#fff;border-radius:9px;padding:8px 14px;font-weight:700;cursor:pointer;text-align:center}
+.btn2:hover{background:var(--green-d)}
+.chk{display:flex;gap:8px;align-items:center;margin-top:12px;font-weight:600}
+.chk input{width:17px;height:17px;accent-color:var(--green)}
+input[type=range]{width:100%;accent-color:var(--green)}
+
+/* ---------- preview column ---------- */
+.ptool{display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.ptool .zb{border:1px solid var(--line);background:#fff;border-radius:8px;width:32px;height:32px;font-weight:800}
+.ptool .zl{min-width:48px;text-align:center;font-weight:700}
+.ptool .fit{border:1px solid var(--line);background:#fff;border-radius:8px;height:32px;padding:0 12px;font-weight:700}
+#note{font-size:12.5px;font-weight:600;color:#8a5a00;background:#fff4d9;border-radius:8px;padding:5px 10px}
+#note:empty{display:none}
+.pagewrap{overflow:auto;border-radius:var(--r);background:#d8e0e5;padding:20px 12px}
+.vt{display:none}
+
+/* ---------- gallery dialog ---------- */
+dialog{border:0;border-radius:16px;padding:0;width:min(900px,94vw);max-height:88vh;box-shadow:0 30px 80px rgba(20,32,43,.35);color:var(--ink)}
+dialog::backdrop{background:rgba(20,32,43,.55)}
+.dh{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid var(--line);position:sticky;top:0;background:#fff;z-index:2}
+.dh h2{margin:0;font-size:18px}
+.dh p{margin:2px 0 0;color:var(--muted);font-size:13px}
+.dh button{border:0;background:#eef2f4;border-radius:9px;width:34px;height:34px;font-size:18px}
+#gal{padding:8px 20px 20px;overflow:auto;max-height:calc(88vh - 80px)}
+.grow{display:flex;gap:16px;align-items:center;padding:12px 8px;border-bottom:1px solid #eef1f3;border-radius:10px}
+.grow.on{background:#f2f7f5}
+.gth{width:56px;flex:none}
+.gth svg{display:block;width:56px;height:74px;border-radius:4px;box-shadow:0 1px 4px rgba(20,32,43,.2)}
+.gn{font-weight:700;margin-bottom:8px}
+.bd2{font-size:11px;font-weight:700;border-radius:20px;padding:2px 8px;margin-left:6px}
+.bd2.ok{background:#dff1e8;color:#16603f}
+.bd2.warn{background:#fff0d2;color:#8a5a00}
+.sws{display:flex;gap:8px;flex-wrap:wrap}
+.swb{width:26px;height:26px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px #b5c0c9}
+.swb.sel{box-shadow:0 0 0 3px var(--ink)}
+.swb:hover{transform:scale(1.12)}
+
+.foot{max-width:1400px;margin:0 auto;padding:6px 20px 30px;color:var(--muted);font-size:12.5px}
+
+/* ---------- the resume page ---------- */
+#page{background:#fff;width:210mm;min-height:297mm;margin:0 auto;box-shadow:0 6px 24px rgba(20,32,43,.22);font-size:10.5pt;line-height:1.35;color:#000;
+  padding:0;font-family:var(--font,Arial,Helvetica,sans-serif);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+#page h1{font-size:20pt;margin:0 0 2px;text-align:center;letter-spacing:.5px;color:var(--ac)}
+#page .contact{text-align:center;font-size:10pt;margin-bottom:6px}
+#page h2{font-size:11pt;text-transform:uppercase;margin:11px 0 4px;padding-bottom:1px;color:var(--ac);border-bottom:1.5px solid var(--ac)}
+#page .row{display:flex;justify-content:space-between;gap:10px}
+#page ul{margin:2px 0 4px 18px;padding:0}
+#page li{margin:1px 0}
+#page p{margin:2px 0}
+#page .item{margin-bottom:5px}
+#page .hdr{padding:12mm 15mm 2mm;display:flex;align-items:center;gap:6mm}
+#page .ht{flex:1;min-width:0}
+#page .bd{padding:0 15mm 14mm}
+#page .ph{width:28mm;height:34mm;overflow:hidden;flex:none;background:#e5e9ec}
+#page .ph.ci{width:30mm;height:30mm;border-radius:50%}
+#page .ph.rd{border-radius:3mm}
+#page .ph img{width:100%;height:100%;object-fit:cover;display:block}
+#page.l0 .hdr.hp .ht,#page.l2 .hdr.hp .ht,#page.l3 .hdr.hp .ht,#page.l4 .hdr.hp .ht,#page.l9 .hdr.hp .ht{padding-left:30mm}
+#page.l1 .hdr h1,#page.l1 .hdr .contact{text-align:left}
+#page.l1 h2{border:0;font-size:12pt}
+#page.l2 .hdr,#page.l3 .hdr,#page.l4 .hdr{background:var(--ac);padding:10mm 15mm 6mm;margin-bottom:4mm}
+#page.l2 h1,#page.l3 h1,#page.l4 h1,#page.l2 .contact,#page.l3 .contact,#page.l4 .contact{color:#fff}
+#page.l2 .ph,#page.l3 .ph,#page.l4 .ph{border:2px solid #fff}
+#page .cols{display:grid;gap:7mm;grid-template-columns:1fr 60mm}
+#page.l3 .cols{grid-template-columns:60mm 1fr}
+#page.l3 .side{order:-1}
+#page.l3 .side,#page.l4 .side{background:var(--tint);padding:3mm 4mm;border-radius:4px;align-self:start}
+#page.l5 .side{border-left:1px solid var(--ac);padding-left:5mm}
+#page.l6 h2{background:var(--ac);color:#fff;border:0;padding:2px 7px}
+#page.l7 h2{border:0;border-left:4px solid var(--ac);padding-left:7px;color:#000}
+#page.l8{font-size:9.5pt;line-height:1.25}
+#page.l8 h1{font-size:17pt}
+#page.l8 h2{font-size:10pt;margin:7px 0 3px}
+#page.l9{font-family:Georgia,'Times New Roman',serif}
+#page.l9 h1{letter-spacing:3px;font-weight:normal}
+#page.l9 h2{font-weight:normal;letter-spacing:2px;border-bottom:1px solid var(--ac)}
+.empty{color:#8a97a3;text-align:center;padding:90px 30px;font-family:Manrope,system-ui,sans-serif;font-size:14px}
+
+/* ---------- responsive ---------- */
+@media (max-width:960px){
+  .app{grid-template-columns:1fr;margin-top:-30px}
+  .form{position:static;max-height:none}
+  .vt{display:flex;gap:6px;margin-bottom:12px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:4px}
+  .vt button{flex:1;border:0;background:transparent;border-radius:9px;padding:9px;font-weight:700;color:var(--muted)}
+  .vt button.on{background:var(--green);color:#fff}
+  body[data-view=edit] .previewcol{display:none}
+  body[data-view=preview] .form{display:none}
+  .top{padding:10px 14px}
+  .tplbtn small{display:none}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+@media print{
+  @page{size:A4;margin:12mm}
+  body{background:#fff}
+  .top,.hero,.form,.ptool,.vt,dialog,.foot{display:none!important}
+  body[data-view] .previewcol{display:block!important}
+  .app{display:block;padding:0;margin:0;max-width:none}
+  .pagewrap{padding:0;background:#fff;overflow:visible}
+  #page{zoom:1!important;box-shadow:none;margin:0;width:auto;min-height:0}
+  #page .hdr{padding:6mm 5mm 2mm}
+  #page.l2 .hdr,#page.l3 .hdr,#page.l4 .hdr{padding:6mm 5mm 4mm}
+  #page .bd{padding:0 5mm}
+}
+</style>
+</head>
+<body data-view="edit">
+
+<header class="top">
+  <div class="brand">
+    <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><path d="M5 2h11l5 5v17H5z" fill="#1f5f4a"/><path d="M16 2v5h5z" fill="#d6a03c"/><rect x="8" y="11" width="9" height="1.8" rx=".9" fill="#fff"/><rect x="8" y="15" width="9" height="1.8" rx=".9" fill="#fff"/><rect x="8" y="19" width="6" height="1.8" rx=".9" fill="#fff"/></svg>
+    Resume Studio
+  </div>
+  <div class="seg" role="group" aria-label="Resume type" id="modeSeg">
+    <button data-m="ats">ATS</button>
+    <button data-m="cds">CDS</button>
+  </div>
+  <button class="tplbtn" id="tplBtn" aria-haspopup="dialog">
+    <span class="sw" id="tplSw"></span><span id="tplName"></span><small>Template badlo</small>
+  </button>
+  <div class="sp"></div>
+  <details class="dmenu" id="dmenu">
+    <summary>Data</summary>
+    <div class="dpop">
+      <button id="sample">Sample bharo</button>
+      <button id="blank">Naya khali resume</button>
+      <button id="save">Data save karo (.json)</button>
+      <label>Data load karo<input id="load" type="file" accept=".json" hidden></label>
+    </div>
+  </details>
+  <button class="primary" id="pdf">PDF download karo</button>
+</header>
+
+<section class="hero">
+  <div>
+    <h1>Apna resume banao aur PDF mein download karo</h1>
+    <p>ATS aur CDS dono format, 100 templates aur photo ke saath. Aapka data aapke browser mein hi rehta hai.</p>
+  </div>
+</section>
+
+<main class="app">
+  <div class="vt" role="group" aria-label="View">
+    <button data-v="edit" class="on">Details bharo</button>
+    <button data-v="preview">Resume dekho</button>
+  </div>
+  <div class="form" id="form"></div>
+  <div class="previewcol">
+    <div class="ptool">
+      <button class="zb" id="zo" aria-label="Zoom out">−</button>
+      <span class="zl" id="zl">100%</span>
+      <button class="zb" id="zi" aria-label="Zoom in">+</button>
+      <button class="fit" id="zf">Fit</button>
+      <span id="note"></span>
+    </div>
+    <div class="pagewrap" id="pagewrap"><div id="page"></div></div>
+  </div>
+</main>
+
+<div class="foot">Aapka data kisi server par nahi jata. Sab kuch is browser mein save hota hai.</div>
+
+<dialog id="dlg" aria-label="Template chuno">
+  <div class="dh">
+    <div><h2>100 templates</h2><p>Layout chuno, phir colour chuno. "ATS safe" layouts single column hain.</p></div>
+    <button id="dclose" aria-label="Band karo">✕</button>
+  </div>
+  <div id="gal"></div>
+</dialog>
+
+<script>
+const KEY='resume_builder_v2';
+const LAY=[['Classic',1],['Modern Left',1],['Banner',1],['Sidebar Left',0],['Sidebar Right',0],['Split Column',0],['Boxed Heading',1],['Side Line',1],['Compact',1],['Elegant Serif',1]];
+const ACC=[['Navy','#1f2a44'],['Maroon','#7b1e2b'],['Forest','#1f6f50'],['Teal','#0f766e'],['Purple','#5b3f8c'],['Charcoal','#333333'],['Royal Blue','#1d4ed8'],['Olive','#4d5b1f'],['Burnt Orange','#c2410c'],['Black','#000000']];
+const FONTS=["Arial,Helvetica,sans-serif","Calibri,'Segoe UI',Arial,sans-serif","Georgia,'Times New Roman',serif"];
+const $=s=>document.querySelector(s);
+const esc=t=>String(t==null?'':t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+const blank=()=>({mode:'ats',tpl:0,
+ photo:{src:'',show:true,shape:'rd',zoom:100,y:50},
+ p:{name:'',phone:'',email:'',city:'',link:''},
+ objective:'',
+ edu:[{a:'',b:'',c:'',d:''}],
+ exp:[],proj:[],
+ skills:'',cert:'',ach:'',
+ cds:{ncc:'',sports:'',lead:'',hobbies:'',dob:'',height:'',weight:'',father:'',nationality:'',lang:''}
+});
+const sample=()=>({
+ p:{name:'Sample Name',phone:'+91 90000 00000',email:'sample@email.com',city:'Dehradun, Uttarakhand',link:''},
+ objective:'Sample objective: apne goal ke baare mein 1-2 line yahan likho.',
+ edu:[{a:'B.A.',b:'Sample College, Sample University',c:'2023 - 2026',d:'CGPA: 7.5'},{a:'Class XII (CBSE)',b:'Sample School',c:'2023',d:'78%'}],
+ exp:[{a:'Intern',b:'Sample Company',c:'Jun 2025 - Aug 2025',d:'Sample task one\nSample task two'}],
+ proj:[{a:'Sample Project',b:'',c:'',d:'Kya banaya, ek line mein'}],
+ skills:'Communication, Leadership, MS Office',
+ cert:'Sample Certificate - Sample Institute',
+ ach:'Sample achievement',
+ cds:{ncc:'NCC "B" Certificate',sports:'Football - District level',lead:'Class representative',hobbies:'Reading, Running',dob:'01-01-2003',height:'175 cm',weight:'65 kg',father:'Sample Father',nationality:'Indian',lang:'Hindi, English'}
+});
+
+let S;
+try{S=JSON.parse(localStorage.getItem(KEY))||blank()}catch(e){S=blank()}
+S=Object.assign(blank(),S);S.photo=Object.assign(blank().photo,S.photo||{});
+const persist=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+const openSecs=new Set(['photo','personal']);
+
+/* ---------- form ---------- */
+function get(path){return path.split('.').reduce((o,k)=>o&&o[k],S)}
+function set(path,val){const k=path.split('.');const last=k.pop();k.reduce((o,x)=>o[x],S)[last]=val}
+function inp(path,label,ta,ph){
+  const v=get(path);
+  const f=ta?`<textarea data-p="${path}" placeholder="${esc(ph||'')}">${esc(v)}</textarea>`
+            :`<input data-p="${path}" value="${esc(v)}" placeholder="${esc(ph||'')}">`;
+  return `<div class="f"><label>${label}</label>${f}</div>`;
+}
+const card=(id,title,inner,cls)=>`<details class="card ${cls||''}" data-sec="${id}"${openSecs.has(id)?' open':''}><summary>${title}</summary><div class="cb">${inner}</div></details>`;
+function rep(key,id,title,addLabel,labels,taIdx){
+  let h='';
+  S[key].forEach((e,i)=>{
+    h+=`<div class="entry"><button class="rm" data-rm="${key}.${i}">Hatao</button>`;
+    h+=`<div class="g2">${inp(`${key}.${i}.a`,labels[0])}${inp(`${key}.${i}.b`,labels[1])}</div>`;
+    h+=`<div class="g2">${inp(`${key}.${i}.c`,labels[2])}${taIdx===3?'<div></div>':inp(`${key}.${i}.d`,labels[3])}</div>`;
+    if(taIdx===3)h+=inp(`${key}.${i}.d`,labels[3],1,'Ek line = ek bullet');
+    h+='</div>';
+  });
+  h+=`<button class="add" data-add="${key}">+ ${addLabel}</button>`;
+  return card(id,title,h);
+}
+function photoCard(){
+  const ph=S.photo;
+  let h=`<div class="phrow"><div class="phprev">${ph.src?`<img alt="Aapki photo" src="${ph.src}">`:'Photo<br>nahi hai'}</div>
+   <div class="phbtns"><label class="btn2">Photo chuno<input id="phfile" type="file" accept="image/*" hidden></label>
+   ${ph.src?'<button class="ghost" data-phrm="1">Photo hatao</button>':''}</div></div>`;
+  if(ph.src){
+    h+=`<label class="chk"><input type="checkbox" data-ph="show"${ph.show?' checked':''}> Resume mein photo dikhao</label>`;
+    h+=`<div class="f"><label>Shape</label><select data-ph="shape"><option value="sq"${ph.shape==='sq'?' selected':''}>Square (passport)</option><option value="rd"${ph.shape==='rd'?' selected':''}>Rounded</option><option value="ci"${ph.shape==='ci'?' selected':''}>Circle</option></select></div>`;
+    h+=`<div class="f"><label>Zoom</label><input type="range" min="100" max="250" step="5" value="${ph.zoom}" data-ph="zoom"></div>`;
+    h+=`<div class="f"><label>Upar / neeche</label><input type="range" min="0" max="100" value="${ph.y}" data-ph="y"></div>`;
+  }
+  h+='<p class="hint" style="margin-top:10px">ATS resume mein photo na lagana behtar hai. CDS / SSB form ke liye photo laga sakte ho.</p>';
+  return card('photo','Photo',h);
+}
+function buildForm(){
+  let h=photoCard();
+  h+=card('personal','Personal details',
+    `<div class="g2">${inp('p.name','Poora naam')}${inp('p.phone','Phone')}</div><div class="g2">${inp('p.email','Email')}${inp('p.city','City, State')}</div>${inp('p.link','LinkedIn / GitHub (optional)')}`);
+  h+=card('obj','Objective / Summary',inp('objective','Objective',1));
+  h+=rep('edu','edu','Education','Education jodo',['Degree / Class','College / School','Year','Marks / CGPA'],0);
+  h+=rep('exp','exp','Experience / Internship','Experience jodo',['Role','Company / Organisation','Dates','Kaam (ek line = ek bullet)'],3);
+  h+=rep('proj','proj','Projects','Project jodo',['Project ka naam','Link (optional)','Dates (optional)','Details (ek line = ek bullet)'],3);
+  h+=card('skills','Skills',inp('skills','Skills',1,'Comma se alag karo'));
+  h+=card('cert','Certifications',inp('cert','Certifications',1,'Ek line = ek certificate'));
+  h+=card('ach','Achievements',inp('ach','Achievements',1,'Ek line = ek achievement'));
+  h+=card('cds','CDS details',
+    `<p class="hint">Ye sirf CDS resume mein dikhenge. Khali chhodoge to nahi aayenge.</p>`+
+    inp('cds.ncc','NCC (certificate / wing / rank)',1)+inp('cds.sports','Sports',1)+inp('cds.lead','Leadership / Extra-curricular',1)+inp('cds.hobbies','Hobbies')+
+    `<div class="g2">${inp('cds.dob','Date of birth')}${inp('cds.father',"Father's name")}</div><div class="g2">${inp('cds.height','Height')}${inp('cds.weight','Weight')}</div><div class="g2">${inp('cds.nationality','Nationality')}${inp('cds.lang','Languages')}</div>`,'cdsonly');
+  $('#form').innerHTML=h;
+}
+
+/* ---------- preview ---------- */
+const lines=t=>String(t||'').split('\n').map(x=>x.trim()).filter(Boolean);
+const ul=t=>{const l=lines(t);return l.length?`<ul>${l.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`:''};
+const sec=(title,body,side)=>body?{h:`<h2>${title}</h2>${body}`,side:!!side}:null;
+
+function render(){
+  const p=S.p,c=S.cds,cds=S.mode==='cds';
+  const contact=[p.phone,p.email,p.city,p.link].filter(Boolean).map(esc).join(' | ');
+  let h='';
+  if(p.name)h+=`<h1>${esc(p.name)}</h1>`;
+  if(contact)h+=`<div class="contact">${contact}</div>`;
+
+  const objective=sec('Objective',S.objective.trim()?`<p>${esc(S.objective.trim())}</p>`:'');
+  const edu=sec('Education',S.edu.filter(e=>e.a||e.b).map(e=>
+    `<div class="item"><div class="row"><span><b>${esc(e.a)}</b>${e.b?', '+esc(e.b):''}</span><span>${esc(e.c)}</span></div>${e.d?`<div>${esc(e.d)}</div>`:''}</div>`).join(''));
+  const exp=sec('Experience',S.exp.filter(e=>e.a||e.b).map(e=>
+    `<div class="item"><div class="row"><span><b>${esc(e.a)}</b>${e.b?', '+esc(e.b):''}</span><span>${esc(e.c)}</span></div>${ul(e.d)}</div>`).join(''));
+  const proj=sec('Projects',S.proj.filter(e=>e.a).map(e=>
+    `<div class="item"><div class="row"><span><b>${esc(e.a)}</b>${e.b?' ('+esc(e.b)+')':''}</span><span>${esc(e.c)}</span></div>${ul(e.d)}</div>`).join(''));
+  const skills=sec('Skills',S.skills.trim()?`<p>${esc(S.skills.trim().replace(/\n+/g,', '))}</p>`:'',1);
+  const cert=sec('Certifications',ul(S.cert),1);
+  const ach=sec('Achievements',ul(S.ach));
+
+  let order;
+  if(cds){
+    const ncc=sec('NCC',ul(c.ncc));
+    const sports=sec('Sports',ul(c.sports));
+    const lead=sec('Leadership & Extra-Curricular',ul(c.lead));
+    const hob=sec('Hobbies',c.hobbies.trim()?`<p>${esc(c.hobbies.trim())}</p>`:'',1);
+    const pi=[['Date of Birth',c.dob],["Father's Name",c.father],['Height',c.height],['Weight',c.weight],['Nationality',c.nationality],['Languages Known',c.lang]]
+      .filter(x=>x[1]&&x[1].trim()).map(x=>`<p><b>${x[0]}:</b> ${esc(x[1])}</p>`).join('');
+    order=[objective,edu,ncc,sports,lead,ach,exp,proj,skills,cert,hob,sec('Personal Information',pi,1)];
+  }else{
+    order=[objective,exp,edu,proj,skills,cert,ach];
+  }
+  const L=Math.floor(S.tpl/10),A=S.tpl%10,col=L>=3&&L<=5;
+  const items=order.filter(Boolean);
+  const body=col
+    ?`<div class="cols"><div class="main">${items.filter(x=>!x.side).map(x=>x.h).join('')}</div><div class="side">${items.filter(x=>x.side).map(x=>x.h).join('')}</div></div>`
+    :`<div class="main">${items.map(x=>x.h).join('')}</div>`;
+  const ph=S.photo,showPh=!!(ph.src&&ph.show);
+  const photo=showPh?`<div class="ph ${ph.shape}"><img alt="" src="${ph.src}" style="object-position:50% ${ph.y}%;transform:scale(${ph.zoom/100});transform-origin:50% ${ph.y}%"></div>`:'';
+  const pg=$('#page');
+  pg.className='l'+L;
+  pg.style.setProperty('--ac',ACC[A][1]);
+  pg.style.setProperty('--tint',ACC[A][1]+'1c');
+  pg.style.setProperty('--font',FONTS[A%3]);
+  pg.innerHTML=(h||items.length||showPh)
+    ?`<div class="hdr${showPh?' hp':''}"><div class="ht">${h}</div>${photo}</div><div class="bd">${body}</div>`
+    :'<div class="empty">Abhi resume khali hai. Left side mein naam aur education bharo, resume yahin banta dikhega.</div>';
+  const notes=[];
+  if(S.mode==='ats'&&col)notes.push('2-column template ATS ke liye theek nahi. "ATS safe" wala chuno.');
+  if(S.mode==='ats'&&showPh)notes.push('ATS resume mein photo na lagana behtar hai.');
+  $('#note').textContent=notes.join(' ');
+  updateTplLabel();
+}
+function updateTplLabel(){
+  const L=Math.floor(S.tpl/10),A=S.tpl%10;
+  $('#tplName').textContent='Template '+(S.tpl+1)+' · '+LAY[L][0]+' '+ACC[A][0];
+  $('#tplSw').style.background=ACC[A][1];
+}
+
+/* ---------- zoom ---------- */
+let zoom=null;
+function applyZoom(){
+  const w=$('#pagewrap').clientWidth-24,pw=210*3.7795;
+  const z=zoom==null?Math.min(1,Math.max(.3,w/pw)):zoom;
+  $('#page').style.zoom=z;
+  $('#zl').textContent=Math.round(z*100)+'%';
+}
+function curZoom(){return parseFloat($('#page').style.zoom)||1}
+$('#zo').onclick=()=>{zoom=Math.max(.3,curZoom()-.1);applyZoom()};
+$('#zi').onclick=()=>{zoom=Math.min(1.6,curZoom()+.1);applyZoom()};
+$('#zf').onclick=()=>{zoom=null;applyZoom()};
+window.addEventListener('resize',applyZoom);
+
+/* ---------- template gallery ---------- */
+function thumb(l,c){
+  const g='#cdd4db',R=(x,y,w,h,f,r)=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${f}"${r?` rx="${r}"`:''}/>`;
+  const band=l>=2&&l<=4,col=l>=3&&l<=5,cen=[0,2,3,4,9].includes(l);
+  let s=`<rect x=".5" y=".5" width="59" height="79" fill="#fff" stroke="#d5dbe1"/>`;
+  if(band)s+=R(.5,.5,59,15,c);
+  s+=R(cen?18:8,6,24,2.6,band?'#fff':c)+R(cen?14:8,11,32,1.2,band?'#ffffffaa':g);
+  const sc=(x,y,w)=>{let o='';
+    if(l===6)o+=R(x,y-2,w,3.6,c);
+    else if(l===7)o+=R(x,y-1,1.2,4,c)+R(x+3,y,14,1.8,'#333');
+    else if(l===1||l===5)o+=R(x,y,16,1.8,c);
+    else if(l===9)o+=R(x,y,14,1.2,c)+R(x,y+3,w,.5,c);
+    else o+=R(x,y,14,1.8,c)+R(x,y+3,w,.7,c);
+    const n=l===8?4:3,gp=l===8?2.8:3.6;
+    for(let i=0;i<n;i++)o+=R(x,y+6+i*gp,i===n-1?w*.6:w,1.3,g);
+    return o};
+  if(col){
+    const yT=band?20:18;
+    const side=l===3?[4,16]:l===4?[41,15]:[43,14],main=l===3?[24,32]:[6,32];
+    if(l===5)s+=R(40,yT,.6,54,c);else s+=R(side[0],yT,side[1],54,c+'22',2);
+    for(let i=0;i<4;i++)s+=R(side[0]+2,yT+4+i*10,side[1]-4,1.6,c)+R(side[0]+2,yT+8+i*10,side[1]-6,1.2,g);
+    for(let i=0;i<3;i++)s+=sc(main[0],yT+4+i*17,main[1]);
+  }else{
+    const yT=band?20:17;
+    for(let i=0;i<3;i++)s+=sc(8,yT+3+i*19,44);
+  }
+  return `<svg viewBox="0 0 60 80" aria-hidden="true">${s}</svg>`;
+}
+function openGallery(){
+  const L=Math.floor(S.tpl/10),c=ACC[S.tpl%10][1];
+  $('#gal').innerHTML=LAY.map((l,i)=>`<div class="grow${i===L?' on':''}"><div class="gth">${thumb(i,c)}</div><div><div class="gn">${l[0]}<span class="bd2 ${l[1]?'ok':'warn'}">${l[1]?'ATS safe':'2 column'}</span></div><div class="sws">${
+    ACC.map((a,j)=>`<button class="swb${i*10+j===S.tpl?' sel':''}" style="background:${a[1]}" data-t="${i*10+j}" title="Template ${i*10+j+1} · ${a[0]}" aria-label="Template ${i*10+j+1}, ${l[0]} ${a[0]}"></button>`).join('')
+  }</div></div></div>`).join('');
+  $('#dlg').showModal();
+}
+$('#tplBtn').onclick=openGallery;
+$('#dclose').onclick=()=>$('#dlg').close();
+$('#dlg').addEventListener('click',e=>{if(e.target===$('#dlg'))$('#dlg').close()});
+$('#gal').addEventListener('click',e=>{
+  const t=e.target.dataset.t;if(t==null)return;
+  S.tpl=+t;persist();render();$('#dlg').close();
+});
+
+/* ---------- photo ---------- */
+function loadPhoto(f){
+  if(!f)return;
+  const r=new FileReader();
+  r.onload=()=>{
+    const im=new Image();
+    im.onload=()=>{
+      const M=600,s=Math.min(1,M/Math.max(im.width,im.height));
+      const cv=document.createElement('canvas');
+      cv.width=Math.round(im.width*s);cv.height=Math.round(im.height*s);
+      cv.getContext('2d').drawImage(im,0,0,cv.width,cv.height);
+      S.photo.src=cv.toDataURL('image/jpeg',.85);S.photo.show=true;S.photo.zoom=100;S.photo.y=50;
+      persist();buildForm();render();
+    };
+    im.onerror=()=>alert('Ye image file khul nahi paayi. JPG ya PNG try karo.');
+    im.src=r.result;
+  };
+  r.readAsDataURL(f);
+}
+
+/* ---------- events ---------- */
+$('#form').addEventListener('toggle',e=>{
+  const id=e.target.dataset&&e.target.dataset.sec;if(!id)return;
+  e.target.open?openSecs.add(id):openSecs.delete(id);
+},true);
+$('#form').addEventListener('input',e=>{
+  const t=e.target;
+  if(t.dataset.ph){
+    const k=t.dataset.ph;
+    S.photo[k]=t.type==='checkbox'?t.checked:(t.type==='range'?+t.value:t.value);
+    persist();render();return;
+  }
+  const p=t.dataset.p;if(!p)return;
+  set(p,t.value);persist();render();
+});
+$('#form').addEventListener('change',e=>{if(e.target.id==='phfile'){loadPhoto(e.target.files[0]);e.target.value=''}});
+$('#form').addEventListener('click',e=>{
+  const d=e.target.dataset;
+  if(d.rm){const [k,i]=d.rm.split('.');S[k].splice(+i,1);persist();buildForm();render()}
+  if(d.add){S[d.add].push({a:'',b:'',c:'',d:''});persist();buildForm();render()}
+  if(d.phrm){S.photo.src='';persist();buildForm();render()}
+});
+$('#modeSeg').addEventListener('click',e=>{
+  const m=e.target.dataset.m;if(!m)return;
+  S.mode=m;applyMode();persist();render();
+});
+function applyMode(){
+  document.body.classList.toggle('cds',S.mode==='cds');
+  document.querySelectorAll('#modeSeg button').forEach(b=>{b.classList.toggle('on',b.dataset.m===S.mode);b.setAttribute('aria-pressed',b.dataset.m===S.mode)});
+}
+function reset(next){
+  S=Object.assign(blank(),next);S.photo=Object.assign(blank().photo,S.photo||{});
+  if(!(S.tpl>=0&&S.tpl<100))S.tpl=0;
+  applyMode();persist();buildForm();render();
+}
+const closeMenu=()=>{$('#dmenu').open=false};
+$('#sample').onclick=()=>{reset(Object.assign(sample(),{tpl:S.tpl,mode:S.mode,photo:S.photo}));closeMenu()};
+$('#blank').onclick=()=>{closeMenu();if(confirm('Saara data hat jayega. Aage badhein?'))reset({tpl:S.tpl,mode:S.mode})};
+$('#save').onclick=()=>{
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([JSON.stringify(S,null,2)],{type:'application/json'}));
+  a.download='resume-data.json';a.click();URL.revokeObjectURL(a.href);closeMenu();
+};
+$('#load').onchange=e=>{
+  const f=e.target.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=()=>{try{reset(JSON.parse(r.result))}catch(x){alert('Ye file sahi nahi hai. Pehle "Data save karo" se bani .json file chuno.')}};
+  r.readAsText(f);e.target.value='';closeMenu();
+};
+document.addEventListener('click',e=>{if(!e.target.closest('#dmenu'))closeMenu()});
+$('#pdf').onclick=()=>{
+  const old=document.title;
+  document.title=(S.p.name||'Resume').replace(/\s+/g,'_')+'_'+S.mode.toUpperCase();
+  window.print();document.title=old;
+};
+document.querySelectorAll('.vt button').forEach(b=>b.onclick=()=>{
+  document.body.dataset.view=b.dataset.v;
+  document.querySelectorAll('.vt button').forEach(x=>x.classList.toggle('on',x===b));
+  applyZoom();
+});
+
+if(!(S.tpl>=0&&S.tpl<100))S.tpl=0;
+applyMode();buildForm();render();applyZoom();
+</script>
+</body>
+</html>
